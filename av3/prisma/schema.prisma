@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "mysql"
+}
+
+enum ModeloAeronave {
+  Militar
+  Comercial
+}
+
+enum StatusEtapa {
+  PENDENTE
+  EM_ANDAMENTO
+  CONCLUIDA
+}
+
+enum CargoFuncionario {
+  Administrador
+  Engenheiro
+  Operador
+}
+
+enum TipoPeca {
+  Importada
+  Nacional
+}
+
+enum StatusPeca {
+  Producao
+  Em_Andamento
+  Concluida
+}
+
+enum TipoTeste {
+  Mecanico
+  Eletrico
+  Aerodinamico
+}
+
+enum ResultadoTeste {
+  APROVADO
+  REPROVADO
+}
+
+model Aeronave {
+  id        Int      @id @default(autoincrement())
+  codigo    String   @unique
+  nome      String  
+  modelo    ModeloAeronave
+  capacidade Int
+  alcance   Int
+
+  etapas Etapa[]
+  pecas  Peca[]
+  testes Teste[]
+}
+
+model Etapa {
+  id        Int           @id @default(autoincrement())
+  nome      String
+  prazo     DateTime
+  status    StatusEtapa    @default(PENDENTE)
+
+  aeronaveId Int
+  aeronave   Aeronave     @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+
+  funcionarios Funcionario[] @relation("EtapaFuncionarios")
+}
+
+model Funcionario {
+  id            Int       @id @default(autoincrement())
+  nome          String    @unique
+  numeroCell    String
+  endereco      String
+  username      String
+  senha         String
+  cargo         CargoFuncionario
+
+  etapas Etapa[] @relation("EtapaFuncionarios")
+}
+
+model Peca {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  tipo      TipoPeca
+  fornecedor String
+  status    StatusPeca
+
+  aeronaveId Int
+  aeronave   Aeronave @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+}
+
+model Teste {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  tipo      TipoTeste
+  resultado ResultadoTeste
+
+  aeronaveId Int
+  aeronave   Aeronave @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+}
