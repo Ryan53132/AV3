@@ -16,7 +16,7 @@ Antes de começar, certifique-se de ter instalado:
 ### 1. Clone o repositório (ou baixe o projeto)
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/Ryan53132/AV3.git
 cd av3
 ```
 
@@ -215,5 +215,6 @@ npm install
 - O frontend roda na porta **5173**
 - O frontend está configurado para fazer proxy das requisições `/api` para o backend
 - Certifique-se de que o MySQL está rodando antes de iniciar a aplicação
+
 
 
