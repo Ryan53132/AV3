@@ -94,7 +94,6 @@ function Aerocode() {
     setEtapa(selectedAero.etapas || []);
     setPeca(selectedAero.pecas || []);
     setTeste(selectedAero.testes || []);
-    console.log(selectedAero.etapas)
   }
   async function CriarAero(e: React.FormEvent) {
     e.preventDefault()
